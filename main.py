@@ -95,14 +95,14 @@ class AboutHandler(webapp.RequestHandler):
     except AccessTokenRefreshError:
       self.redirect('/')
 
+application = webapp.WSGIApplication(
+    [
+     ('/', MainHandler),
+     ('/about', AboutHandler),
+    ],
+    debug=True)
 
 def main():
-  application = webapp.WSGIApplication(
-      [
-       ('/', MainHandler),
-       ('/about', AboutHandler),
-      ],
-      debug=True)
   run_wsgi_app(application)
 
 

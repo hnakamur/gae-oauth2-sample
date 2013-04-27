@@ -5,9 +5,6 @@ api_version: 1
 threadsafe: true
 
 handlers:
-- url: /oauth2callback
-  script: oauth2client.appengine.application
-
 - url: .*
-  script: main.application
+  script: controllers.main.app
 

@@ -36,14 +36,14 @@ from oauth2client.client import AccessTokenRefreshError
 from google.appengine.api import memcache
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
-from google.appengine.ext.webapp.util import run_wsgi_app
 
 
 # CLIENT_SECRETS, name of a file containing the OAuth 2.0 information for this
 # application, including client_id and client_secret, which are found
 # on the API Access tab on the Google APIs
 # Console <http://code.google.com/apis/console>
-CLIENT_SECRETS = os.path.join(os.path.dirname(__file__), 'client_secrets.json')
+CLIENT_SECRETS = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+    'client_secrets.json')
 
 # Helpful message to display in the browser if the CLIENT_SECRETS file
 # is missing.
@@ -73,7 +73,7 @@ class MainHandler(webapp.RequestHandler):
 
   @decorator.oauth_aware
   def get(self):
-    path = os.path.join(os.path.dirname(__file__), 'grant.html')
+    path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'templates', 'grant.html')
     variables = {
         'url': decorator.authorize_url(),
         'has_credentials': decorator.has_credentials()
@@ -90,21 +90,15 @@ class AboutHandler(webapp.RequestHandler):
       user = service.people().get(userId='me').execute(http)
       text = 'Hello, %s!' % user['displayName']
 
-      path = os.path.join(os.path.dirname(__file__), 'welcome.html')
+      path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'templates', 'welcome.html')
       self.response.out.write(template.render(path, {'text': text }))
     except AccessTokenRefreshError:
       self.redirect('/')
 
-application = webapp.WSGIApplication(
+app = webapp.WSGIApplication(
     [
      ('/', MainHandler),
      ('/about', AboutHandler),
+     (decorator.callback_path, decorator.callback_handler())
     ],
     debug=True)
-
-def main():
-  run_wsgi_app(application)
-
-
-if __name__ == '__main__':
-  main()

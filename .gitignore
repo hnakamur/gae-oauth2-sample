@@ -1,2 +1,6 @@
+/.Python
+/bin
+/include
+/lib
 *.pyc
-client_secrets.json
+src/client_secrets.json

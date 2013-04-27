@@ -29,13 +29,13 @@ import httplib2
 import logging
 import os
 import pickle
+import webapp2
 
+from controllers.base import BaseHandler
 from apiclient.discovery import build
 from oauth2client.appengine import oauth2decorator_from_clientsecrets
 from oauth2client.client import AccessTokenRefreshError
 from google.appengine.api import memcache
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp import template
 
 
 # CLIENT_SECRETS, name of a file containing the OAuth 2.0 information for this
@@ -69,19 +69,18 @@ decorator = oauth2decorator_from_clientsecrets(
     'https://www.googleapis.com/auth/plus.me',
     MISSING_CLIENT_SECRETS_MESSAGE)
 
-class MainHandler(webapp.RequestHandler):
+class MainHandler(BaseHandler):
 
   @decorator.oauth_aware
   def get(self):
-    path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'templates', 'grant.html')
     variables = {
         'url': decorator.authorize_url(),
         'has_credentials': decorator.has_credentials()
         }
-    self.response.out.write(template.render(path, variables))
+    self.render_response('grant.html', **variables)
 
 
-class AboutHandler(webapp.RequestHandler):
+class AboutHandler(BaseHandler):
 
   @decorator.oauth_required
   def get(self):
@@ -90,12 +89,11 @@ class AboutHandler(webapp.RequestHandler):
       user = service.people().get(userId='me').execute(http)
       text = 'Hello, %s!' % user['displayName']
 
-      path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'templates', 'welcome.html')
-      self.response.out.write(template.render(path, {'text': text }))
+      self.render_response('welcome.html', text=text)
     except AccessTokenRefreshError:
       self.redirect('/')
 
-app = webapp.WSGIApplication(
+app = webapp2.WSGIApplication(
     [
      ('/', MainHandler),
      ('/about', AboutHandler),

@@ -8,3 +8,10 @@ handlers:
 - url: .*
   script: controllers.main.app
 
+libraries:
+- name: PIL
+  version: "1.1.7"
+- name: webapp2
+  version: "2.5.2"
+- name: jinja2
+  version: "2.6"

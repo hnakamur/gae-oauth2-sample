@@ -1,5 +1,10 @@
 # What is this?
-Google App Engine (GAE) OAuth 2.0 sample, copied from [google-api-python-client](http://code.google.com/p/google-api-python-client/) samples/appengine and added virtualenv setup script.
+Google App Engine (GAE) OAuth 2.0 sample, based on [google-api-python-client](http://code.google.com/p/google-api-python-client/) samples/appengine and modified.
+
+* use virtualenv.
+* use webapp2 and jinja2 instead of webapp
+
+## OAuth2 configuration
 
 * Create a GAE application at [GAE my applications](https://appengine.google.com/) page.
 * Create a project and a Client ID at Google APIs console. See [Google Plus API Tutorial | w3resource](http://www.w3resource.com/API/google-plus/tutorial.php)

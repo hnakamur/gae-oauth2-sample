@@ -1,0 +1,42 @@
+application: sandbox550
+version: 2
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: .*
+  script: controllers.main.app
+
+libraries:
+- name: PIL
+  version: "1.1.7"
+- name: webapp2
+  version: "2.5.2"
+- name: jinja2
+  version: "2.6"
+
+skip_files:
+- ^(.*/)?app\.yaml
+- ^(.*/)?app\.yml
+- ^(.*/)?index\.yaml
+- ^(.*/)?index\.yml
+- ^(.*/)?#.*#
+- ^(.*/)?.*~
+- ^(.*/)?.*\.py[co]
+- ^(.*/)?.*/RCS/.*
+- ^(.*/)?\..*
+- ^(.*/)?run\.sh
+- ^(.*/)?\.gitkeep
+- ^LICENSE
+- ^README\.md
+- ^bin/
+- ^include/
+- ^lib/python2\.7/*\.py
+- ^lib/python2\.7/*\.txt
+- ^lib/python2\.7/site-packages/PIL.*
+- ^lib/python2\.7/site-packages/easy-install\.pth
+- ^lib/python2\.7/site-packages/setuptools\.pth
+- ^pip_install
+- ^virtual_env_setup\.sh
+- ^client_secrets\.json\.default

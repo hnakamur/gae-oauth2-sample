@@ -1,6 +1,6 @@
 /.Python
 /bin
+/client_secrets.json
 /include
 /lib
 *.pyc
-src/client_secrets.json
